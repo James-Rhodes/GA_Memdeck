@@ -28,6 +28,7 @@ class CardShuffle{
         virtual void Shuffle(int (&order)[52]) = 0;
         virtual void IncreaseCounter(ShuffleCounter& counter) = 0;
         virtual void PrintInfo() = 0;
+        virtual void LogJson() = 0;
 };
 
 template<class Derived>
@@ -45,6 +46,7 @@ class FaroShuffle : public CloneableCardShuffle<FaroShuffle>{
         void Shuffle(int (&order)[52]);
         void IncreaseCounter(ShuffleCounter& counter);
         void PrintInfo();
+        void LogJson();
 };
 
 class CutDeck : public CloneableCardShuffle<CutDeck>{
@@ -55,6 +57,7 @@ class CutDeck : public CloneableCardShuffle<CutDeck>{
         void Shuffle(int (&order)[52]);
         void IncreaseCounter(ShuffleCounter& counter);
         void PrintInfo();
+        void LogJson();
 
         int pos;
 };
@@ -67,6 +70,7 @@ class DealPiles : public CloneableCardShuffle<DealPiles>{
         void Shuffle(int (&order)[52]);
         void IncreaseCounter(ShuffleCounter& counter);
         void PrintInfo();
+        void LogJson();
 
         int numPiles; 
         int cardsPerPile;
@@ -80,6 +84,7 @@ class OverhandShuffle : public CloneableCardShuffle<OverhandShuffle>{
         void Shuffle(int (&order)[52]);
         void IncreaseCounter(ShuffleCounter& counter);
         void PrintInfo();
+        void LogJson();
 
         vector<int> cardsPerShuffle;
 };
@@ -92,6 +97,7 @@ class DealClumps : public CloneableCardShuffle<DealClumps>{
         void Shuffle(int (&order)[52]);
         void IncreaseCounter(ShuffleCounter& counter);
         void PrintInfo();
+        void LogJson();
 
         vector<int> cardsPerDeal;
 };

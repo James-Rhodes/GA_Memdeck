@@ -25,6 +25,10 @@ void FaroShuffle::IncreaseCounter(ShuffleCounter& counter){
     counter.faroShuffles++;
 }
 
+void FaroShuffle::LogJson(){
+    cout<<"{\"Type\":\"Faro Shuffle\"}";
+}
+
 void CutDeck::GenerateParams(){
     pos = GetRandomInt(genomeParamLimits.cutDeck_CutPos[0],genomeParamLimits.cutDeck_CutPos[1]);
 }
@@ -58,6 +62,10 @@ void CutDeck::IncreaseCounter(ShuffleCounter& counter){
     counter.cutDecks++;
 }
 
+void CutDeck::LogJson(){
+    cout<<"{\"Type\":\"Cut Deck\",\"Position\":\""<<pos<<"\"}";
+}
+
 void DealPiles::GenerateParams(){
     numPiles = GetRandomInt(genomeParamLimits.dealPiles_NumPiles[0],genomeParamLimits.dealPiles_NumPiles[1]);
     cardsPerPile = GetRandomInt(genomeParamLimits.dealPiles_CardsPerPile[0],genomeParamLimits.dealPiles_CardsPerPile[1]);
@@ -87,6 +95,10 @@ void DealPiles::PrintInfo(){
 
 void DealPiles::IncreaseCounter(ShuffleCounter& counter){
     counter.dealPiles++;
+}
+
+void DealPiles::LogJson(){
+    cout<<"{\"Type\":\"Deal Poker Hands\",\"NumberOfPiles\":\""<<numPiles<<"\","<<"\"CardsPerPile\":\""<<cardsPerPile<<"\"}";
 }
 
 void OverhandShuffle::GenerateParams(){
@@ -134,6 +146,17 @@ void OverhandShuffle::PrintInfo(){
         }
     }
     cout<<endl;
+}
+
+void OverhandShuffle::LogJson(){
+    cout<<"{\"Type\":\"Overhand Shuffle\",\"NumberOfShuffles\":\""<<(int)cardsPerShuffle.size()<<"\",\"Shuffles\":[";
+    for(size_t i = 0; i<cardsPerShuffle.size(); i++){
+        cout<<"\""<<cardsPerShuffle[i]<<"\"";
+        if((int)i != (int)cardsPerShuffle.size()-1){
+            cout<<",";
+        }
+    }
+    cout<<"]}";
 }
 
 void OverhandShuffle::IncreaseCounter(ShuffleCounter& counter){
@@ -187,6 +210,17 @@ void DealClumps::PrintInfo(){
         }
     }
     cout<<endl;
+}
+
+void DealClumps::LogJson(){
+    cout<<"{\"Type\":\"Dealing In Clumps\",\"NumberOfDeals\":\""<<(int)cardsPerDeal.size()<<"\",\"Deals\":[";
+    for(size_t i = 0; i<cardsPerDeal.size(); i++){
+        cout<<"\""<<cardsPerDeal[i]<<"\"";
+        if((int)i != (int)cardsPerDeal.size()-1){
+            cout<<",";
+        }
+    }
+    cout<<"]}";
 }
 
 void DealClumps::IncreaseCounter(ShuffleCounter& counter){

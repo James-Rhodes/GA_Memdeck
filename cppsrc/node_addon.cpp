@@ -17,7 +17,7 @@ Napi::String RunGA(const Napi::CallbackInfo& info){
         ga.Generate();
     }
 
-    std::string result = ga.LogToString();
+    std::string result = ga.LogToJson();
 
     //return new Napi::string value
     return Napi::String::New(env,result);

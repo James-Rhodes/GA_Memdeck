@@ -82,6 +82,7 @@ class GA{
         void PrintBest();
         void PrintBestOrder();
         string LogToString();
+        string LogToJson();
 
     private:
         GA(const GA&);

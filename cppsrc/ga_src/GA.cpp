@@ -228,6 +228,33 @@ string GA::LogToString(){
     return text;
 }
 
+string GA::LogToJson(){
+
+    std::stringstream buffer;
+    std::streambuf * old = std::cout.rdbuf(buffer.rdbuf());
+
+    cout<<"{\"Shuffles\":[";
+
+    for(size_t i = 0; i<genomes[indexOfBest].shuffles.size(); i++){
+
+        genomes[indexOfBest].shuffles[i]->LogJson();
+
+        if((int)i != (int)genomes[indexOfBest].shuffles.size()-1){
+            cout<<",";
+        }
+    }
+
+    cout<<"],\"Order\":\"";
+    deck.PrintDeck(genomes[indexOfBest].shuffler.order);
+    cout<<"\""<<"}";
+
+    std::string text = buffer.str();
+
+    std::cout.rdbuf( old );
+
+    return text;
+}
+
 int GA::PickIndex(){
     float randNum = GetRandom();
     float accumulation = 0;
