@@ -1,26 +1,84 @@
 //Code to bridge between the GA stuff with node
 #include <napi.h>
 #include <string>
+#include <iostream>
 #include "ga_src/GA.h"
 
 extern class GA ga;
+extern class MaxNumberOfEachShuffle maxShuffles;
+extern class GenomeParamLimits genomeParamLimits;
 
 Napi::String RunGA(const Napi::CallbackInfo& info){
     Napi::Env env = info.Env();
-
-    //call 'helloUser' function from 'greetings.cpp' file
-    //Warning: we are passing hardcoded 'MIKE' for now
-    // std::string user = (std::string) info[0].ToString();
-    // std::string result = helloUser( user );
 
     for(int i = 0; i<100; i++){
         ga.Generate();
     }
 
     std::string result = ga.LogToJson();
-
-    //return new Napi::string value
     return Napi::String::New(env,result);
+}
+
+Napi::String SetAmountOfShuffles(const Napi::CallbackInfo& info){
+    Napi::Env env = info.Env();
+
+    if(info.Length() != genomeParamLimits.typesOfShuffles){
+        Napi::TypeError::New(env, "Incorrect Number of Elements").ThrowAsJavaScriptException();
+        return Napi::String::New(env,"");
+    }
+
+    maxShuffles.faros = info[0].As<Napi::Number>().Int32Value();
+    maxShuffles.cutDeck = info[1].As<Napi::Number>().Int32Value();
+    maxShuffles.dealPiles = info[2].As<Napi::Number>().Int32Value();
+    maxShuffles.overhandShuffle = info[3].As<Napi::Number>().Int32Value();
+    maxShuffles.dealClumps = info[4].As<Napi::Number>().Int32Value();
+
+    return Napi::String::New(env,"Complete");
+}
+
+Napi::String SetShuffleParams(const Napi::CallbackInfo& info){
+    Napi::Env env = info.Env();
+    //Below is hard coded, work out how to fix it later
+    if(info.Length() != 16){
+        Napi::TypeError::New(env, "Incorrect Number of Elements").ThrowAsJavaScriptException();
+        return Napi::String::New(env,"");
+    }
+
+    genomeParamLimits.numberOfShuffles[0] = info[0].As<Napi::Number>().Int32Value();
+    genomeParamLimits.numberOfShuffles[1] = info[1].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.cutDeck_CutPos[0] = info[2].As<Napi::Number>().Int32Value();
+    genomeParamLimits.cutDeck_CutPos[1] = info[3].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.dealPiles_NumPiles[0] = info[4].As<Napi::Number>().Int32Value();
+    genomeParamLimits.dealPiles_NumPiles[1] = info[5].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.dealPiles_CardsPerPile[0] = info[6].As<Napi::Number>().Int32Value();
+    genomeParamLimits.dealPiles_CardsPerPile[1] = info[7].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.overhandShuffle_numShuffles[0] = info[8].As<Napi::Number>().Int32Value();
+    genomeParamLimits.overhandShuffle_numShuffles[1] = info[9].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.overhandShuffle_cardsPerShuffle[0] = info[10].As<Napi::Number>().Int32Value();
+    genomeParamLimits.overhandShuffle_cardsPerShuffle[1] = info[11].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.dealClumps_numDeals[0] = info[12].As<Napi::Number>().Int32Value();
+    genomeParamLimits.dealClumps_numDeals[1] = info[13].As<Napi::Number>().Int32Value();
+
+    genomeParamLimits.dealClumps_CardsPerDeal[0] = info[14].As<Napi::Number>().Int32Value();
+    genomeParamLimits.dealClumps_CardsPerDeal[1] = info[15].As<Napi::Number>().Int32Value();
+
+    // int numberOfShuffles[2] = {5,8};
+    // int cutDeck_CutPos[2] = {1,51};
+    // int dealPiles_NumPiles[2] = {1,4};
+    // int dealPiles_CardsPerPile[2] = {1,4};
+    // int overhandShuffle_numShuffles[2] = {1,5};
+    // int overhandShuffle_cardsPerShuffle[2] = {1,5};
+    // int dealClumps_numDeals[2] = {1,4};
+    // int dealClumps_CardsPerDeal[2] = {1,5};
+    // int typesOfShuffles = 5;
+
+    return Napi::String::New(env,"Complete");
 }
 
 //Callback method when module is registered with Node.js
@@ -32,7 +90,17 @@ Napi::Object Init(Napi::Env env, Napi::Object exports){
         Napi::Function::New(env, RunGA)
     );
 
+    exports.Set(
+        Napi::String::New(env,"_SetAmountOfShuffles"),
+        Napi::Function::New(env,SetAmountOfShuffles)
+    );
+
+    exports.Set(
+        Napi::String::New(env,"_SetShuffleParams"),
+        Napi::Function::New(env,SetShuffleParams)
+    );
+
     return exports;
 }
 
-NODE_API_MODULE(greet,Init);
+NODE_API_MODULE(RunningGA,Init);
