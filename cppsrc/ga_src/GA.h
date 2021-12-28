@@ -77,7 +77,7 @@ class GA{
             // outFile.close();
         }
 
-
+        void InitAll();
         void Generate();
         void PrintBest();
         void PrintBestOrder();
@@ -89,7 +89,6 @@ class GA{
         GA& operator=(const GA&);
         void LogInfo();
         void LogFileIntroduction();
-        void InitAll();
         void CrossoverAll();
         void CalcAllFitness();
         void MutateAll();

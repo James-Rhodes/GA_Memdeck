@@ -7,7 +7,7 @@ GA ga(2500,0.05);
 
 void Genome::Init(){
     numShuffles = GetRandomInt(genomeParamLimits.numberOfShuffles[0],genomeParamLimits.numberOfShuffles[1]);
-
+    shuffles.clear();
     for(int i = 0; i<numShuffles; i++){
         shuffles.push_back(CardShuffleGenerator());
         shuffles[i]->GenerateParams();

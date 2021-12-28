@@ -33,6 +33,8 @@ Napi::String SetAmountOfShuffles(const Napi::CallbackInfo& info){
     maxShuffles.overhandShuffle = info[3].As<Napi::Number>().Int32Value();
     maxShuffles.dealClumps = info[4].As<Napi::Number>().Int32Value();
 
+    ga.InitAll();
+
     return Napi::String::New(env,"Complete");
 }
 
@@ -77,6 +79,8 @@ Napi::String SetShuffleParams(const Napi::CallbackInfo& info){
     // int dealClumps_numDeals[2] = {1,4};
     // int dealClumps_CardsPerDeal[2] = {1,5};
     // int typesOfShuffles = 5;
+
+    ga.InitAll();
 
     return Napi::String::New(env,"Complete");
 }

@@ -23,7 +23,6 @@ ga.SetShuffleParams = function(obj){
     }
 
     ga._SetShuffleParams(...params);
-    
 }
 
 module.exports = ga;
