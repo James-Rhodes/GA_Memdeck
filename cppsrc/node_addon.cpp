@@ -15,6 +15,8 @@ Napi::String RunGA(const Napi::CallbackInfo& info){
         ga.Generate();
     }
 
+    cout<<maxShuffles.faros<<" , "<<maxShuffles.cutDeck<<" , "<<maxShuffles.dealPiles<<" , "<<maxShuffles.overhandShuffle<<" , "<<maxShuffles.dealClumps<<endl;
+
     std::string result = ga.LogToJson();
     return Napi::String::New(env,result);
 }
@@ -32,6 +34,7 @@ Napi::String SetAmountOfShuffles(const Napi::CallbackInfo& info){
     maxShuffles.dealPiles = info[2].As<Napi::Number>().Int32Value();
     maxShuffles.overhandShuffle = info[3].As<Napi::Number>().Int32Value();
     maxShuffles.dealClumps = info[4].As<Napi::Number>().Int32Value();
+
 
     ga.InitAll();
 
