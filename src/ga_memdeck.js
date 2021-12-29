@@ -20,13 +20,13 @@ ga.SetShuffleParams = function(obj){
     let params = [];
 
     for(const property of objParams){
-        if(isNaN(obj[property].min) && isNaN(obj[property].max)){
+        if(isNaN(obj[property].min) || isNaN(obj[property].max)){
             throw `Property: ${property} max or min is undefined`;
         }
         params.push(obj[property].min);
         params.push(obj[property].max);
     }
-
+    console.log(params);
     ga._SetShuffleParams(...params);
 }
 

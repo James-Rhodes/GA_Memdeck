@@ -15,8 +15,6 @@ Napi::String RunGA(const Napi::CallbackInfo& info){
         ga.Generate();
     }
 
-    cout<<maxShuffles.faros<<" , "<<maxShuffles.cutDeck<<" , "<<maxShuffles.dealPiles<<" , "<<maxShuffles.overhandShuffle<<" , "<<maxShuffles.dealClumps<<endl;
-
     std::string result = ga.LogToJson();
     return Napi::String::New(env,result);
 }
@@ -72,16 +70,6 @@ Napi::String SetShuffleParams(const Napi::CallbackInfo& info){
 
     genomeParamLimits.dealClumps_CardsPerDeal[0] = info[14].As<Napi::Number>().Int32Value();
     genomeParamLimits.dealClumps_CardsPerDeal[1] = info[15].As<Napi::Number>().Int32Value();
-
-    // int numberOfShuffles[2] = {5,8};
-    // int cutDeck_CutPos[2] = {1,51};
-    // int dealPiles_NumPiles[2] = {1,4};
-    // int dealPiles_CardsPerPile[2] = {1,4};
-    // int overhandShuffle_numShuffles[2] = {1,5};
-    // int overhandShuffle_cardsPerShuffle[2] = {1,5};
-    // int dealClumps_numDeals[2] = {1,4};
-    // int dealClumps_CardsPerDeal[2] = {1,5};
-    // int typesOfShuffles = 5;
 
     ga.InitAll();
 

@@ -24,10 +24,12 @@ app.get("/Generated_Mem_Deck/RunGA",(req,res)=>{
 });
 
 app.post("/Generated_Mem_Deck/Alter_Amount_Of_Shuffles",(req,res)=>{
-    console.log(req.body);
-    console.log(typeof req.body);
-
     ga.SetAmountOfShuffles(req.body);
+});
+
+app.post("/Generated_Mem_Deck/Alter_Shuffle_Params",(req,res)=>{
+    console.log(req.body);
+    ga.SetShuffleParams(req.body);
 });
 
 app.listen(3000,()=>{
