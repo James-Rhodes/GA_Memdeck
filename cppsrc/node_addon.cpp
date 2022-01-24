@@ -1,4 +1,4 @@
-//Code to bridge between the GA stuff with node
+// Code to bridge between the GA stuff with node
 #include <napi.h>
 #include <string>
 #include <iostream>
@@ -8,23 +8,27 @@ extern class GA ga;
 extern class MaxNumberOfEachShuffle maxShuffles;
 extern class GenomeParamLimits genomeParamLimits;
 
-Napi::String RunGA(const Napi::CallbackInfo& info){
+Napi::String RunGA(const Napi::CallbackInfo &info)
+{
     Napi::Env env = info.Env();
 
-    for(int i = 0; i<100; i++){
+    for (int i = 0; i < 100; i++)
+    {
         ga.Generate();
     }
 
     std::string result = ga.LogToJson();
-    return Napi::String::New(env,result);
+    return Napi::String::New(env, result);
 }
 
-Napi::String SetAmountOfShuffles(const Napi::CallbackInfo& info){
+Napi::String SetAmountOfShuffles(const Napi::CallbackInfo &info)
+{
     Napi::Env env = info.Env();
 
-    if(info.Length() != genomeParamLimits.typesOfShuffles){
+    if (info.Length() != genomeParamLimits.typesOfShuffles + 2)
+    {
         Napi::TypeError::New(env, "Incorrect Number of Elements").ThrowAsJavaScriptException();
-        return Napi::String::New(env,"");
+        return Napi::String::New(env, "");
     }
 
     maxShuffles.faros = info[0].As<Napi::Number>().Int32Value();
@@ -32,19 +36,22 @@ Napi::String SetAmountOfShuffles(const Napi::CallbackInfo& info){
     maxShuffles.dealPiles = info[2].As<Napi::Number>().Int32Value();
     maxShuffles.overhandShuffle = info[3].As<Napi::Number>().Int32Value();
     maxShuffles.dealClumps = info[4].As<Napi::Number>().Int32Value();
-
+    genomeParamLimits.numberOfShuffles[0] = info[5].As<Napi::Number>().Int32Value();
+    genomeParamLimits.numberOfShuffles[1] = info[6].As<Napi::Number>().Int32Value();
 
     ga.InitAll();
 
-    return Napi::String::New(env,"Complete");
+    return Napi::String::New(env, "Complete");
 }
 
-Napi::String SetShuffleParams(const Napi::CallbackInfo& info){
+Napi::String SetShuffleParams(const Napi::CallbackInfo &info)
+{
     Napi::Env env = info.Env();
-    //Below is hard coded, work out how to fix it later
-    if(info.Length() != 16){
+    // Below is hard coded, work out how to fix it later
+    if (info.Length() != 16)
+    {
         Napi::TypeError::New(env, "Incorrect Number of Elements").ThrowAsJavaScriptException();
-        return Napi::String::New(env,"");
+        return Napi::String::New(env, "");
     }
 
     genomeParamLimits.numberOfShuffles[0] = info[0].As<Napi::Number>().Int32Value();
@@ -73,29 +80,27 @@ Napi::String SetShuffleParams(const Napi::CallbackInfo& info){
 
     ga.InitAll();
 
-    return Napi::String::New(env,"Complete");
+    return Napi::String::New(env, "Complete");
 }
 
-//Callback method when module is registered with Node.js
-Napi::Object Init(Napi::Env env, Napi::Object exports){
+// Callback method when module is registered with Node.js
+Napi::Object Init(Napi::Env env, Napi::Object exports)
+{
 
-    //set a key on 'exports' object
+    // set a key on 'exports' object
     exports.Set(
         Napi::String::New(env, "RunGA"),
-        Napi::Function::New(env, RunGA)
-    );
+        Napi::Function::New(env, RunGA));
 
     exports.Set(
-        Napi::String::New(env,"_SetAmountOfShuffles"),
-        Napi::Function::New(env,SetAmountOfShuffles)
-    );
+        Napi::String::New(env, "_SetAmountOfShuffles"),
+        Napi::Function::New(env, SetAmountOfShuffles));
 
     exports.Set(
-        Napi::String::New(env,"_SetShuffleParams"),
-        Napi::Function::New(env,SetShuffleParams)
-    );
+        Napi::String::New(env, "_SetShuffleParams"),
+        Napi::Function::New(env, SetShuffleParams));
 
     return exports;
 }
 
-NODE_API_MODULE(RunningGA,Init);
+NODE_API_MODULE(RunningGA, Init);
