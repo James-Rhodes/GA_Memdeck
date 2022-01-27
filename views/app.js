@@ -17,11 +17,11 @@ const alterShuffleParamsButton = document.querySelector(
 );
 
 const alterAmountTest = {
-  numFaros: 1,
-  numCutDeck: 2,
-  numDealPiles: 3,
-  numOverhandShuffles: 4,
-  numDealClumps: 5,
+  numFaros: -1,
+  numCutDeck: -1,
+  numDealPiles: -1,
+  numOverhandShuffles: -1,
+  numDealClumps: -1,
   minNumShuffles: 6,
   maxNumShuffles: 7,
 };

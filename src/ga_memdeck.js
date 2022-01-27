@@ -1,6 +1,16 @@
 const ga = require("../build/Release/ga.node");
-
+ga.numIterations = 1;
 ga.SetAmountOfShuffles = function (obj) {
+  if (obj.iterations > 10) {
+    throw new Error("Too many iterations requested");
+  }
+  if (isNaN(obj.iterations)) {
+    throw new Error(
+      "A number of iterations must be requested by including an iterations member of the object."
+    );
+  }
+  ga.numIterations = obj.iterations;
+  delete obj.iterations;
   const objParams = [
     "numFaros",
     "numCutDeck",
@@ -11,11 +21,26 @@ ga.SetAmountOfShuffles = function (obj) {
     "maxNumShuffles",
   ];
   let params = [];
+  let containsMinusOne = false;
+  let totalNumShuffles = 0;
   for (const property of objParams) {
     if (isNaN(obj[property])) {
-      throw "Incorrect object type, the correct object contains numbers that are these parameters: numFaros, numCutDeck, numDealPiles, numOverhandShuffles, numDealClumps, minNumShuffles,maxNumShuffles";
+      throw new Error(
+        "Incorrect object type, the correct object contains numbers that are these parameters: numFaros, numCutDeck, numDealPiles, numOverhandShuffles, numDealClumps, minNumShuffles,maxNumShuffles"
+      );
     }
+
     params.push(obj[property]);
+
+    if (obj[property] == -1) {
+      containsMinusOne = true;
+    }
+    if (property != "minNumShuffles" && property != "maxNumShuffles") {
+      totalNumShuffles = totalNumShuffles + obj[property];
+    }
+  }
+  if (totalNumShuffles < obj.minNumShuffles && !containsMinusOne) {
+    throw new Error("Not Enough Shuffles Selected");
   }
 
   ga._SetAmountOfShuffles(...params);
@@ -41,8 +66,9 @@ ga.SetShuffleParams = function (obj) {
     params.push(obj[property].min);
     params.push(obj[property].max);
   }
-  console.log(params);
   ga._SetShuffleParams(...params);
 };
 
-module.exports = ga;
+module.exports = {
+  ga,
+};
