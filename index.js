@@ -11,30 +11,25 @@ app.use("/views", express.static(__dirname + "/views"));
 // app.set('views',path.join(__dirname,'views'));
 
 app.get("/Generated_Mem_Deck", (req, res) => {
-  // res.send("Hello Site");
   res.sendFile(__dirname + "/views/index.html");
 });
 
-app.get("/Generated_Mem_Deck/RunGA", (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+app.post("/Generated_Mem_Deck/RunGA", (req, res) => {
+  try {
+    ga.SetAmountOfShuffles(req.body);
+  } catch (err) {
+    res.status(400).send(JSON.stringify({ error: err.message }));
+    return;
+  }
+
   let result;
-  console.log(ga.numIterations);
   for (let i = 0; i < ga.numIterations; i++) {
     result = ga.RunGA();
-    console.log("Ran Iteration!!", i);
   }
   result = result.replace('"\n', '"');
   result = result.replace('\n"', '"');
   result = result.replace(/\n|\r/g, ",");
   res.send(result);
-});
-
-app.post("/Generated_Mem_Deck/Alter_Amount_Of_Shuffles", (req, res) => {
-  try {
-    ga.SetAmountOfShuffles(req.body);
-  } catch (err) {
-    res.status(400).send(err.message);
-  }
 });
 
 app.post("/Generated_Mem_Deck/Alter_Shuffle_Params", (req, res) => {
