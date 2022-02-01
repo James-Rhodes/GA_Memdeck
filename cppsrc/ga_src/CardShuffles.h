@@ -6,7 +6,8 @@
 #include "GlobalParams.h"
 using namespace std;
 
-struct ShuffleCounter{
+struct ShuffleCounter
+{
     // Add a counter for each new type of shuffle that is added as well as adding it to the generator function
     ShuffleCounter(){};
 
@@ -17,91 +18,105 @@ struct ShuffleCounter{
     int dealClumps = 0;
 };
 
-class CardShuffle{
-    public:
-        const int numCards = 52;
-        CardShuffle(){};
-        virtual ~CardShuffle() = default;
-        virtual CardShuffle* Clone() const = 0;
+class CardShuffle
+{
+public:
+    const int numCards = 52;
+    CardShuffle(){};
+    virtual ~CardShuffle() = default;
+    virtual CardShuffle *Clone() const = 0;
 
-        virtual void GenerateParams() = 0;
-        virtual void Shuffle(int (&order)[52]) = 0;
-        virtual void IncreaseCounter(ShuffleCounter& counter) = 0;
-        virtual void PrintInfo() = 0;
-        virtual void LogJson() = 0;
+    virtual void GenerateParams() = 0;
+    virtual void SetParams(vector<int> params) = 0;
+    virtual void Shuffle(int (&order)[52]) = 0;
+    virtual void IncreaseCounter(ShuffleCounter &counter) = 0;
+    virtual void PrintInfo() = 0;
+    virtual void LogJson() = 0;
 };
 
-template<class Derived>
-class CloneableCardShuffle : public CardShuffle{
-    virtual CardShuffle* Clone() const {
-        return new Derived(static_cast<const Derived&>(*this));
+template <class Derived>
+class CloneableCardShuffle : public CardShuffle
+{
+    virtual CardShuffle *Clone() const
+    {
+        return new Derived(static_cast<const Derived &>(*this));
     }
 };
 
-class FaroShuffle : public CloneableCardShuffle<FaroShuffle>{
-    public:
-        FaroShuffle(){};
+class FaroShuffle : public CloneableCardShuffle<FaroShuffle>
+{
+public:
+    FaroShuffle(){};
 
-        void GenerateParams();
-        void Shuffle(int (&order)[52]);
-        void IncreaseCounter(ShuffleCounter& counter);
-        void PrintInfo();
-        void LogJson();
+    void GenerateParams();
+    void SetParams(vector<int> params);
+    void Shuffle(int (&order)[52]);
+    void IncreaseCounter(ShuffleCounter &counter);
+    void PrintInfo();
+    void LogJson();
 };
 
-class CutDeck : public CloneableCardShuffle<CutDeck>{
-    public:
-        CutDeck(){};
+class CutDeck : public CloneableCardShuffle<CutDeck>
+{
+public:
+    CutDeck(){};
 
-        void GenerateParams();
-        void Shuffle(int (&order)[52]);
-        void IncreaseCounter(ShuffleCounter& counter);
-        void PrintInfo();
-        void LogJson();
+    void GenerateParams();
+    void SetParams(vector<int> params);
+    void Shuffle(int (&order)[52]);
+    void IncreaseCounter(ShuffleCounter &counter);
+    void PrintInfo();
+    void LogJson();
 
-        int pos;
+    int pos;
 };
 
-class DealPiles : public CloneableCardShuffle<DealPiles>{
-    public:
-        DealPiles(){};
+class DealPiles : public CloneableCardShuffle<DealPiles>
+{
+public:
+    DealPiles(){};
 
-        void GenerateParams();
-        void Shuffle(int (&order)[52]);
-        void IncreaseCounter(ShuffleCounter& counter);
-        void PrintInfo();
-        void LogJson();
+    void GenerateParams();
+    void SetParams(vector<int> params);
+    void Shuffle(int (&order)[52]);
+    void IncreaseCounter(ShuffleCounter &counter);
+    void PrintInfo();
+    void LogJson();
 
-        int numPiles; 
-        int cardsPerPile;
+    int numPiles;
+    int cardsPerPile;
 };
 
-class OverhandShuffle : public CloneableCardShuffle<OverhandShuffle>{
-    public:
-        OverhandShuffle(){};
+class OverhandShuffle : public CloneableCardShuffle<OverhandShuffle>
+{
+public:
+    OverhandShuffle(){};
 
-        void GenerateParams();
-        void Shuffle(int (&order)[52]);
-        void IncreaseCounter(ShuffleCounter& counter);
-        void PrintInfo();
-        void LogJson();
+    void GenerateParams();
+    void SetParams(vector<int> params);
+    void Shuffle(int (&order)[52]);
+    void IncreaseCounter(ShuffleCounter &counter);
+    void PrintInfo();
+    void LogJson();
 
-        vector<int> cardsPerShuffle;
+    vector<int> cardsPerShuffle;
 };
 
-class DealClumps : public CloneableCardShuffle<DealClumps>{
-    public:
-        DealClumps(){};
+class DealClumps : public CloneableCardShuffle<DealClumps>
+{
+public:
+    DealClumps(){};
 
-        void GenerateParams();
-        void Shuffle(int (&order)[52]);
-        void IncreaseCounter(ShuffleCounter& counter);
-        void PrintInfo();
-        void LogJson();
+    void GenerateParams();
+    void SetParams(vector<int> params);
+    void Shuffle(int (&order)[52]);
+    void IncreaseCounter(ShuffleCounter &counter);
+    void PrintInfo();
+    void LogJson();
 
-        vector<int> cardsPerDeal;
+    vector<int> cardsPerDeal;
 };
 
-CardShuffle* CardShuffleGenerator();
+CardShuffle *CardShuffleGenerator(int key = -1);
 
 #endif

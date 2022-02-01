@@ -69,6 +69,8 @@ ga.SetShuffleParams = function (obj) {
   ga._SetShuffleParams(...params);
 };
 
+console.log(ga._GetCustomOrder([[0], []]));
+
 module.exports = {
   ga,
 };

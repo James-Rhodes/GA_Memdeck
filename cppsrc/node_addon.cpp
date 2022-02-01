@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "ga_src/GA.h"
+#include "ga_src/customShuffle.h"
 
 extern class GA ga;
 extern class MaxNumberOfEachShuffle maxShuffles;
@@ -83,6 +84,27 @@ Napi::String SetShuffleParams(const Napi::CallbackInfo &info)
     return Napi::String::New(env, "Complete");
 }
 
+Napi::String GetCustomOrder(const Napi::CallbackInfo &info)
+{
+    Napi::Env env = info.Env();
+
+    Napi::Array inputArr = info[0].As<Napi::Array>();
+    std::vector<std::vector<int>> vec(inputArr.Length());
+
+    for (int i = 0; i < inputArr.Length(); i++)
+    {
+        Napi::Array subArray = ((Napi::Value)inputArr[i]).As<Napi::Array>();
+        vec[i].resize(subArray.Length());
+        for (int j = 0; j < subArray.Length(); j++)
+        {
+            vec[i][j] = ((Napi::Value)subArray[j]).As<Napi::Number>().Int32Value();
+        }
+    }
+
+    std::string result = getCustomOrderFromShuffles(vec);
+
+    return Napi::String::New(env, result);
+}
 // Callback method when module is registered with Node.js
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
@@ -99,6 +121,9 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     exports.Set(
         Napi::String::New(env, "_SetShuffleParams"),
         Napi::Function::New(env, SetShuffleParams));
+    exports.Set(
+        Napi::String::New(env, "_GetCustomOrder"),
+        Napi::Function::New(env, GetCustomOrder));
 
     return exports;
 }
