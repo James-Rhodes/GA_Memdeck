@@ -150,6 +150,9 @@
     <ClCompile Include="..\cppsrc\ga_src\RandNumGen.cpp">
       <ObjectFileName>$(IntDir)\cppsrc\ga_src\RandNumGen.obj</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\cppsrc\ga_src\customShuffle.cpp">
+      <ObjectFileName>$(IntDir)\cppsrc\ga_src\customShuffle.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="C:\Users\jrcen\AppData\Roaming\npm\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>

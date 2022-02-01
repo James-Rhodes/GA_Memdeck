@@ -32,6 +32,21 @@ app.post("/Generated_Mem_Deck/RunGA", (req, res) => {
   res.send(result);
 });
 
+app.post("/Custom_Shuffle_Order/Generate", (req, res) => {
+  let result;
+  try {
+    result = ga.GetCustomOrder(req.body);
+  } catch (err) {
+    res.status(400).send(JSON.stringify({ error: err.message }));
+    return;
+  }
+
+  result = result.replace('"\n', '"');
+  result = result.replace('\n"', '"');
+  result = result.replace(/\n|\r/g, ",");
+  res.send(result);
+});
+
 app.post("/Generated_Mem_Deck/Alter_Shuffle_Params", (req, res) => {
   ga.SetShuffleParams(req.body);
 });

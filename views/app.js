@@ -4,6 +4,8 @@ const ALTER_AMOUNT_URL =
 const ALTER_SHUFFLE_PARAMS =
   "http://localhost:3000/Generated_Mem_Deck/Alter_Shuffle_Params";
 
+const CUSTOM_SHUFF = "http://localhost:3000/Custom_Shuffle_Order/Generate";
+
 console.log("Hello dir");
 
 let result;
@@ -15,6 +17,8 @@ const alterAmountShufflesButton = document.querySelector(
 const alterShuffleParamsButton = document.querySelector(
   "#butt_sendShuffleParams"
 );
+
+const getCustomShuffButton = document.querySelector("#customShuff");
 
 const alterAmountTest = {
   numFaros: -1,
@@ -78,4 +82,26 @@ alterShuffleParamsButton.addEventListener("click", () => {
     },
     body: JSON.stringify(shuffleParamsTest),
   });
+});
+
+getCustomShuffButton.addEventListener("click", () => {
+  console.log("Clicked Bish - Alter Shuffle Params");
+  const test = [
+    { type: "Faro Shuffle", params: [] },
+    { type: "Overhand Shuffle", params: [1, 2, 3] },
+  ];
+  fetch(CUSTOM_SHUFF, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(test),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .then((res) => {
+      console.log(res);
+    });
 });

@@ -43,6 +43,15 @@
     <Filter Include="..\cppsrc\ga_src">
       <UniqueIdentifier>{12786E99-7139-32E8-8C77-66515F04EDE3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\cppsrc">
+      <UniqueIdentifier>{F8AC8F66-57B0-3794-0C71-0B51AD3FEAF9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\cppsrc\ga_src">
+      <UniqueIdentifier>{12786E99-7139-32E8-8C77-66515F04EDE3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="C:">
       <UniqueIdentifier>{7B735499-E5DD-1C2B-6C26-70023832A1CF}</UniqueIdentifier>
     </Filter>
@@ -88,6 +97,9 @@
       <Filter>..\cppsrc\ga_src</Filter>
     </ClCompile>
     <ClCompile Include="..\cppsrc\ga_src\RandNumGen.cpp">
+      <Filter>..\cppsrc\ga_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cppsrc\ga_src\customShuffle.cpp">
       <Filter>..\cppsrc\ga_src</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\jrcen\AppData\Roaming\npm\node_modules\node-gyp\src\win_delay_load_hook.cc">
