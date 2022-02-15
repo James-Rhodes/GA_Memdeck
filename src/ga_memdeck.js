@@ -87,7 +87,7 @@ ga.GetCustomOrder = (obj) => {
         );
       }
     }
-
+    let sum;
     switch (shuffle.type) {
       case "Faro Shuffle":
         if (shuffle.params.length !== 0) {
@@ -130,13 +130,19 @@ ga.GetCustomOrder = (obj) => {
             "Overhand shuffle requires some shuffles to be specified."
           );
         }
+        sum = shuffle.params.reduce((a, b) => a + b, 0);
+        if (sum > 52) {
+          throw new Error(
+            `Too many cards requested to be dealt for dealing in clumps for a standard deck of 52 cards. ${sum} requested.`
+          );
+        }
         shuffleKeys.push(3);
         params.push(shuffle.params);
 
         break;
 
       case "Dealing In Clumps":
-        let sum = shuffle.params.reduce((a, b) => a + b, 0);
+        sum = shuffle.params.reduce((a, b) => a + b, 0);
         if (sum > 52) {
           throw new Error(
             `Too many cards requested to be dealt for dealing in clumps for a standard deck of 52 cards. ${sum} requested.`
