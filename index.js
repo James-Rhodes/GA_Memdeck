@@ -11,7 +11,7 @@ app.use(express.static(path.resolve(__dirname, "./views")));
 
 // app.set('views',path.join(__dirname,'views'));
 
-app.get("/Generated_Mem_Deck", (req, res) => {
+app.get("/", (req, res) => {
   // res.sendFile(__dirname + "/index.html");
   res.sendFile(path.resolve(__dirname, "./views", "index.html"));
 });
