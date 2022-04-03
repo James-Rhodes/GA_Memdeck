@@ -6,12 +6,14 @@ const path = require("path");
 
 //Below allows for post requests to be received as json
 app.use(express.json());
-app.use("/views", express.static(__dirname + "/views"));
+// app.use("/views", express.static(__dirname + "/views"));
+app.use(express.static(path.resolve(__dirname, "./views")));
 
 // app.set('views',path.join(__dirname,'views'));
 
 app.get("/Generated_Mem_Deck", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  // res.sendFile(__dirname + "/index.html");
+  res.sendFile(path.resolve(__dirname, "./views", "index.html"));
 });
 
 app.post("/Generated_Mem_Deck/RunGA", (req, res) => {
