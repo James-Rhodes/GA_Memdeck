@@ -1,7 +1,7 @@
 const ga = require("../build/Release/ga.node");
 ga.numIterations = 1;
 ga.SetAmountOfShuffles = function (obj) {
-  if (obj.iterations > 10) {
+  if (obj.iterations > 3) {
     throw new Error("Too many iterations requested");
   }
   if (isNaN(obj.iterations)) {
