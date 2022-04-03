@@ -53,6 +53,6 @@ app.post("/Generated_Mem_Deck/Alter_Shuffle_Params", (req, res) => {
   ga.SetShuffleParams(req.body);
 });
 
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log("listening on port 8080");
 });
