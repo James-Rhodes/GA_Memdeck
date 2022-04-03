@@ -2,17 +2,12 @@ const { ga } = require("./src/ga_memdeck");
 const express = require("express");
 const app = express();
 const path = require("path");
-// const obj = {numFaros : 1,numCutDeck : 2,numDealPiles : 3,numOverhandShuffles : 4,numDealClumps : 5};
 
 //Below allows for post requests to be received as json
 app.use(express.json());
-// app.use("/views", express.static(__dirname + "/views"));
 app.use(express.static(path.resolve(__dirname, "./views")));
 
-// app.set('views',path.join(__dirname,'views'));
-
 app.get("/", (req, res) => {
-  // res.sendFile(__dirname + "/index.html");
   res.sendFile(path.resolve(__dirname, "./views", "index.html"));
 });
 
@@ -51,6 +46,10 @@ app.post("/Custom_Shuffle_Order/Generate", (req, res) => {
 
 app.post("/Generated_Mem_Deck/Alter_Shuffle_Params", (req, res) => {
   ga.SetShuffleParams(req.body);
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./views", "index.html"));
 });
 
 app.listen(process.env.PORT || 8080, () => {
