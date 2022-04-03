@@ -14,7 +14,7 @@ ga.SetAmountOfShuffles = function (obj) {
   const objParams = [
     "numFaros",
     "numCutDeck",
-    "numDealPiles",
+    "numPokerHands",
     "numOverhandShuffles",
     "numDealClumps",
     "minNumShuffles",
