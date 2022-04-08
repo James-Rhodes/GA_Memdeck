@@ -2,7 +2,7 @@ const { fork } = require("child_process");
 const { v4: uuidv4 } = require("uuid");
 
 // console.log(uuidv4());
-
+// TODO: ADD this to the main server as well as adding the ability for the client side to check for their uuid and whether it is available
 class Queue {
   constructor() {
     this.elements = {};
@@ -74,6 +74,7 @@ class GAThreadManager {
         uuid: uuid,
       });
     }
+    return uuid;
   }
 
   GetResult(uuid) {
