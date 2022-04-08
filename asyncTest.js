@@ -13,5 +13,5 @@ const testInput = {
 
 ga.SetAmountOfShuffles(testInput);
 const result = ga.RunGA();
-
+console.log("Hello?");
 console.log(result);
