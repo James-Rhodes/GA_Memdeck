@@ -1,4 +1,4 @@
-const { ga } = require("./src/ga_memdeck");
+const { ga } = require("./ga_memdeck");
 
 process.on("message", (message) => {
   try {
@@ -8,7 +8,11 @@ process.on("message", (message) => {
     process.send({ err: err.message });
     return;
   }
-  let result = ga.RunGA();
+
+  let result;
+  for (let i = 0; i < ga.numIterations; i++) {
+    result = ga.RunGA();
+  }
   result = result.replace('"\n', '"');
   result = result.replace('\n"', '"');
   result = result.replace(/\n|\r/g, ",");

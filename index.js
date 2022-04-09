@@ -1,4 +1,5 @@
 const { ga } = require("./src/ga_memdeck");
+const { gaHandler } = require("./src/GARequestHandler");
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -12,21 +13,38 @@ app.get("/", (req, res) => {
 });
 
 app.post("/Generated_Mem_Deck/RunGA", (req, res) => {
-  try {
-    ga.SetAmountOfShuffles(req.body);
-  } catch (err) {
-    res.status(400).send(JSON.stringify({ error: err.message }));
+  // try {
+  //   ga.SetAmountOfShuffles(req.body);
+  // } catch (err) {
+  //   res.status(400).send(JSON.stringify({ error: err.message }));
+  //   return;
+  // }
+
+  // let result;
+  // for (let i = 0; i < ga.numIterations; i++) {
+  //   result = ga.RunGA();
+  // }
+  // result = result.replace('"\n', '"');
+  // result = result.replace('\n"', '"');
+  // result = result.replace(/\n|\r/g, ",");
+
+  const uuid = gaHandler.AddGaRequest(req.body);
+
+  res.send(uuid);
+});
+
+app.get("/Generated_Mem_Deck/GetResults", (req, res) => {
+  const result = gaHandler.GetResults(req.body.uuid);
+  if (!result) {
+    res.send("Still calculating...");
     return;
   }
 
-  let result;
-  for (let i = 0; i < ga.numIterations; i++) {
-    result = ga.RunGA();
+  if (typeof result == string) {
+    res.send(result);
+  } else {
+    res.send(JSON.stringify(result));
   }
-  result = result.replace('"\n', '"');
-  result = result.replace('\n"', '"');
-  result = result.replace(/\n|\r/g, ",");
-  res.send(result);
 });
 
 app.post("/Custom_Shuffle_Order/Generate", (req, res) => {

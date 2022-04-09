@@ -52,7 +52,7 @@ class GAThreadManager {
       this.currentUUID = uuid;
       this.processIsRunning = true;
 
-      this.childProcess = fork("./ga_child_process.js");
+      this.childProcess = fork("./src/ga_child_process.js");
       this.childProcess.send(input);
 
       this.childProcess.on("message", (message) => {
@@ -101,7 +101,7 @@ class GAThreadManager {
 }
 
 // const testInput = {
-//   iterations: 1,
+//   iterations: 100,
 //   numFaros: -1,
 //   numCutDeck: 1,
 //   numPokerHands: 1,
@@ -110,3 +110,12 @@ class GAThreadManager {
 //   minNumShuffles: 1,
 //   maxNumShuffles: 5,
 // };
+
+// const gaHandler = new GAThreadManager();
+
+// const uuid = gaHandler.AddGaRequest(testInput);
+
+// setInterval(() => {
+//   const result = gaHandler.GetResult(uuid);
+//   console.log(result, typeof result);
+// }, 1000);
