@@ -99,6 +99,8 @@ class GAThreadManager {
     }
   }
 }
+const gaHandler = new GAThreadManager();
+exports.gaHandler = gaHandler;
 
 // const testInput = {
 //   iterations: 100,
