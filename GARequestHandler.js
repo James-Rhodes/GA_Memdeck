@@ -1,8 +1,8 @@
 const { fork } = require("child_process");
 const { v4: uuidv4 } = require("uuid");
 
-// console.log(uuidv4());
 // TODO: ADD this to the main server as well as adding the ability for the client side to check for their uuid and whether it is available
+
 class Queue {
   constructor() {
     this.elements = {};
@@ -39,7 +39,11 @@ class GAThreadManager {
     this.childProcess;
 
     this.resultTimeout = 10000;
-    this.timoutId = setInterval(this.ClearResultsTimeout.bind(this), 2000);
+    const CHECK_RESULTS_TIMEOUT_TIME = 2000;
+    this.timoutId = setInterval(
+      this.ClearResultsTimeout.bind(this),
+      CHECK_RESULTS_TIMEOUT_TIME
+    );
   }
 
   AddGaRequest(input) {
@@ -56,8 +60,6 @@ class GAThreadManager {
           data: message,
           timeCalculated: Date.now(),
         };
-
-        console.log(message);
 
         if (!this.inputDataQueue.isEmpty) {
           const next = this.inputDataQueue.dequeue();
@@ -78,9 +80,12 @@ class GAThreadManager {
   }
 
   GetResult(uuid) {
-    const data = this.results[uuid].data;
-    delete this.results[uuid];
-    return data;
+    if (this.results.hasOwnProperty(uuid)) {
+      const data = this.results[uuid].data;
+      delete this.results[uuid];
+      return data;
+    }
+    return false;
   }
 
   ClearResultsTimeout() {
@@ -95,43 +100,13 @@ class GAThreadManager {
   }
 }
 
-const testInput = {
-  iterations: 1000,
-  numFaros: -1,
-  numCutDeck: 1,
-  numPokerHands: 1,
-  numOverhandShuffles: 1,
-  numDealClumps: 1,
-  minNumShuffles: 1,
-  maxNumShuffles: 5,
-};
-
-const gaHandler = new GAThreadManager();
-
-gaHandler.AddGaRequest(testInput);
-gaHandler.AddGaRequest(testInput);
-// gaHandler.AddGaRequest(testInput);
-// console.log(gaHandler.results);
-// let test = 0;
-// const id = setInterval(() => {
-//   gaHandler.AddGaRequest(testInput);
-//   //   console.log(gaHandler.results);
-//   test++;
-//   if (test > 5) {
-//     clearInterval(id);
-//   }
-// }, 500);
-
-// let test = 0;
-// const childProcess = fork("./ga_child_process.js");
-// childProcess.on("message", (message) => {
-//   console.log(message);
-//   if (test < 3) {
-//     childProcess.send(testInput);
-//     test++;
-//   } else {
-//     childProcess.kill();
-//   }
-// });
-// childProcess.send(testInput);
-// childProcess.send(testInput);
+// const testInput = {
+//   iterations: 1,
+//   numFaros: -1,
+//   numCutDeck: 1,
+//   numPokerHands: 1,
+//   numOverhandShuffles: 1,
+//   numDealClumps: 1,
+//   minNumShuffles: 1,
+//   maxNumShuffles: 5,
+// };
