@@ -1,0 +1,43 @@
+.multipleNumberInput {
+  width: 8em;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  text-align: center;
+  transition: outline-width 0.1s linear;
+  display: inline-block;
+}
+
+.multipleNumberInput-blue:focus {
+  outline: 4px solid rgba(13, 110, 253, 0.3);
+  border-color: #86b7fe;
+}
+
+.multipleNumberInput-red:focus {
+  outline: 4px solid rgba(248, 215, 218, 0.8);
+  border-color: #f5c2c7;
+}
+
+.multipleNumberInput.shake {
+  animation: shakeMulti 250ms ease-in-out;
+}
+
+@keyframes shakeMulti {
+  10% {
+    transform: translateX(-5%);
+  }
+  30% {
+    transform: translateX(5%);
+  }
+  50% {
+    transform: translateX(-7.5%);
+  }
+  70% {
+    transform: translateX(7.5%);
+  }
+  90% {
+    transform: translateX(-5%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
