@@ -6,5 +6,5 @@ The auto-generate tab will generate a set of shuffles and an order such that whe
 
 Behind the scenes this code uses a genetic algorithm to determine the optimal order the deck should be in for each of these cases that will result in the most random looking order also minimizing the number of shuffles required. The website has its own explanations of all of these concepts and can be found at:
 
-https://gamemdeck-production.up.railway.app/
+https://ga-memdeck.up.railway.app/
 
